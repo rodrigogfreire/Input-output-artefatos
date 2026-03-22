@@ -1,0 +1,41 @@
+name: Exemplo Output
+run-name: Exemplo Workflow para output, executado por ${{ github.actor }}
+
+on:
+  workflow_dispatch:
+
+jobs:
+  gerando_output:
+    runs-on: ubuntu-latest
+
+    outputs:
+      output-shell: ${{ steps.exemplo-output.outputs.action_randon }}
+      output-pass: ${{ steps.generatedpassword.outputs.password }}
+      
+    steps:
+      - name: Gerando output com shell
+        id: exemplo-output
+        run: |
+          ACTION_RANDON=$RANDOM
+          echo "action_randon=$ACTION_RANDON" >> $GITHUB_OUTPUT
+
+      - name: Exibindo o output da action
+        run: echo "${{ steps.exemplo-output.outputs.action_randon }}"
+      
+      - name: Gerador de senhas
+        id: generatedpassword
+        uses: aammirmirza/RandomPasswordGenerator@v1.1
+        with:
+          length: 15
+           
+      - name: exibir OUTPUT password
+        run: echo "${{ steps.generatedpassword.outputs.password }}"
+  
+  exibindo-valores:
+    needs: gerando_output
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exibindo os Outputs do Gerando Output
+        run: |
+          echo "Output do Shell ${{ needs.gerando_output.outputs.output-shell }}
+          echo "Output da Senha ${{ needs.gerando_output.outputs.output-pass }}
