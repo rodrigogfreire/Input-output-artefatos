@@ -18,10 +18,10 @@ jobs:
         run: echo "${{ steps.exemplo-output.outputs.action_randon }}"
       
       - name: Gerador de senhas
-         id: generatedpassword
-         uses: aammirmirza/RandomPasswordGenerator@v1.1
-         with:
-           length: 15
+        id: generatedpassword
+        uses: aammirmirza/RandomPasswordGenerator@v1.1
+        with:
+          length: 15
            
       - name: exibir OUTPUT password
         run: echo "${{ steps.generatedpassword.outputs.password }}"
