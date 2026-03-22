@@ -7,7 +7,8 @@ on:
       versao:
         type: string
         required: true
-        description: "dev"
+        default: "dev"
+        description: "Versao da Release"
       numero_card:
         type: number
         required: true
