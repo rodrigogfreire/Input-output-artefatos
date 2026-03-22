@@ -15,4 +15,4 @@ jobs:
           echo "action_randon=ACTION_RANDON" >> $GITHUB_OUTPUT
           
       - name: Exibindo o output da action
-        run: echo "${{ steps.exemplo-output.action_randon }}"
+        run: echo "${{ steps.exemplo-output.outputs.action_randon }}"
