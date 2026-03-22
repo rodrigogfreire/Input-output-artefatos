@@ -4,17 +4,49 @@ run-name: Exemplo de Artifact
 on:
   workflow_dispatch: 
 
+env:
+  nome-artefato: teste-artefato
+
 jobs:
   upload-artifact:
     runs-on: ubuntu-latest
-      steps:
-        - name: Listagem de arqvuivos
-          run: ls
-        - name: Gerar alguns arquivos
-          run: |
-            mkdir artefatos
-            echo "Arquivos de teste 01" > ./artefatos/primeiro_arquivo.txt"
-            echo "Arquivos de teste 02" > ./artefatos/segundo_arquivo.txt"
-            echo "Arquivos de teste 03" > ./artefatos/terceiro_arquivo.txt"
-            echo "Arquivos de teste 04" > ./artefatos/quarto_arquivo.txt"
-            echo "Arquivos de teste 05" > ./artefatos/quinto_arquivo.txt"
+    steps:
+      - name: Listagem de arqvuivos
+        run: ls
+
+      - name: Gerar alguns arquivos
+        run: |
+          mkdir artefatos
+          echo "Arquivos de teste 01" > ./artefatos/primeiro_arquivo.txt"
+          echo "Arquivos de teste 02" > ./artefatos/segundo_arquivo.txt"
+          echo "Arquivos de teste 03" > ./artefatos/terceiro_arquivo.txt"
+          echo "Arquivos de teste 04" > ./artefatos/quarto_arquivo.txt"
+          echo "Arquivos de teste 05" > ./artefatos/quinto_arquivo.txt"
+
+      - name: Envio dos arquivos
+        id: upload-artefatos
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.nome-artefato }}
+          path: ./artefatos
+
+      - name: Listagem de Arquivos
+        run: ls
+      
+      - name: Endereço para Obter os Artefatos
+        run: echo "${{ steps.upload-artefatos.outputs.artifact-url }}"
+    
+  download-artifact:
+    needs: upload-artifact
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Listagem de arqvuivos
+        run: ls
+      
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.nome-artefato }}
+      
+      - name: Listagem de arqvuivos
+        run: ls
