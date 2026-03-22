@@ -1,4 +1,4 @@
-name: Exemplo Output
+name: Exemplo Output - Job
 run-name: Exemplo Workflow para output, executado por ${{ github.actor }}
 
 on:
